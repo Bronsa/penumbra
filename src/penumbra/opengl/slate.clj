@@ -7,10 +7,10 @@
 ;   You must not remove this notice, or any other, from this software.
 
 (ns penumbra.opengl.slate
-  (:use [penumbra.utils :only [defmacro- defn-memo defvar-]]
+  (:use [penumbra.utils :only [defmacro- defn-memo]]
         [clojure.pprint]
         [penumbra.utils :only [separate]]
-        [penumbra.utils :only [-?>]]
+        [clojure.core.incubator :only [-?>]]
         [penumbra.opengl core]
         [penumbra.app core])
   (:import [org.lwjgl.opengl Pbuffer PixelFormat]))

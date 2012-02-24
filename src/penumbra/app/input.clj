@@ -7,7 +7,7 @@
 ;;   You must not remove this notice, or any other, from this software.
 
 (ns penumbra.app.input
-  (:use [penumbra.utils :only [defvar indexed]])
+  (:use [penumbra.utils :only [indexed]])
   (:require [penumbra.app.window :as window]
             [penumbra.app.event :as event])
   (:import [org.lwjgl.input Keyboard Mouse]))
@@ -80,7 +80,7 @@
           (when (not (zero? dw))
             (event/publish! app :mouse-wheel dw))
           (cond
-           ;;mouse down/up 
+           ;;mouse down/up
            (and (zero? dx) (zero? dy) button?)
            (do
              (event/publish! app (if button-state :mouse-down :mouse-up) [x y] (mouse-button-name button))

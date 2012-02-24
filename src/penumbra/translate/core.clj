@@ -8,7 +8,7 @@
 
 (ns penumbra.translate.core
   (:use [clojure.pprint])
-  (:use [penumbra.utils :only (defmacro- defvar defvar-)])
+  (:use [penumbra.utils :only (defmacro- )])
   (:use [clojure.walk])
   (:import (java.text ParseException))
   (:import (java.io StringWriter))
@@ -18,25 +18,25 @@
 
 (def ^:dynamic *elements* nil)
 
-(def ^:dynamic *preprocessor* 
+(def ^:dynamic *preprocessor*
   "Initial processing step"
   nil)
 
-(def ^:dynamic *generator* 
+(def ^:dynamic *generator*
   "Anything returned by this is prepended to the beginning of the expression.
   Currently only used for imports, could also be used for anonymous functions."
   nil)
 
-(def ^:dynamic *parser* 
+(def ^:dynamic *parser*
   "Returns a string in the native language for the given s-expression."
   nil)
 (def ^:dynamic *transformer*
   "Macros, applied from leaf to root across entire expression."
   nil)
-(def ^:dynamic *inspector* 
+(def ^:dynamic *inspector*
   "Returns the type of the expression.  Applied as :tag metadata."
   nil)
-(def ^:dynamic *tagger* 
+(def ^:dynamic *tagger*
   "Specialized macro.  Should set :assignment and :defines tags."
   nil)
 
@@ -60,7 +60,7 @@
    (not (meta? x)) nil
    (:numeric-value (meta x)) (typeof (:numeric-value (meta x)))
    :else (:tag (meta x))))
-                                       
+
 (defn add-meta [x & metadata]
   (if (meta? x)
     (with-meta x (apply assoc (list* (meta x) metadata)))
@@ -294,7 +294,7 @@
           (throw (Exception. (str "Unable to determine type of " (with-out-str (prn (keys unknown-types)) (print-tree x)))))
         :else
           (recur x* tagged* (inc iterations))))))
-        
+
 ;;;
 
 (defn parse-lines

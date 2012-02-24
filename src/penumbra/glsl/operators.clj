@@ -13,7 +13,7 @@
         [penumbra.glsl core]
         [penumbra.opengl.context :only (draw-frame-buffer)]
 	[clojure.pprint :only (pprint)]
-	[penumbra.utils :only (separate indexed defvar- defn-memo)])
+	[penumbra.utils :only (separate indexed defn-memo)])
   (:require [clojure.zip :as zip]
             [penumbra.translate.c :as c]
             [penumbra.opengl.texture :as tex]
@@ -40,12 +40,12 @@
     :int4    x
     nil      (throw (Exception. (str "Cannot typecast \n" (with-out-str (print-tree x)))))))
 
-(defvar- type-format
+(def ^:private type-format
   {:color :unsigned-byte
    :color2 :unsigned-byte
    :color3 :unsigned-byte
    :color4 :unsigned-byte
-   :float :float       
+   :float :float
    :float2 :float
    :float3 :float
    :float4 :float
@@ -54,7 +54,7 @@
    :int3 :int
    :int4 :int})
 
-(defvar- texture-tuple
+(def ^:private texture-tuple
   {:float 1
    :float2 2
    :float3 3
@@ -64,7 +64,7 @@
    :int3 3
    :int4 4})
 
-(defvar- texture-type
+(def ^:private texture-type
   {[:unsigned-byte 1] :float
    [:unsigned-byte 2] :float2
    [:unsigned-byte 3] :float3
@@ -78,9 +78,9 @@
    [:int 3] :int3
    [:int 4] :int4})
 
-(defvar- swizzle { 1 '.x, 2 '.xy, 3 '.xyz, 4 '.xyzw })
+(def ^:private swizzle { 1 '.x, 2 '.xy, 3 '.xyz, 4 '.xyzw })
 
-(defvar- sampler-type
+(def ^:private sampler-type
   {[:texture-1d 1] :sampler1D
    [:texture-rectangle 1] :sampler1DRect
    [:texture-2d 2] :sampler2D
@@ -155,11 +155,11 @@
 
 ;;;
 
-(defvar- fixed-operator-transform
+(def ^:private fixed-operator-transform
   '((<- -coord (-> :multi-tex-coord0 .xy (* -dim)))
     (<- :position (* :model-view-projection-matrix :vertex))))
 
-(defvar- fixed-render-transform
+(def ^:private fixed-render-transform
   `{:position (* :model-view-projection-matrix :vertex)})
 
 (defn- wrap-uniform
@@ -211,7 +211,7 @@
       (declare (varying (with-meta -coord {:tag :float2})))
       (declare (uniform (with-meta -dim {:tag :float2})))
       (declare (uniform (with-meta -bounds {:tag :float2}))))
-   (-> (list 'defn 'void 'main [] (-> x prepend-index)) prepend-lighting)))             
+   (-> (list 'defn 'void 'main [] (-> x prepend-index)) prepend-lighting)))
 
 (defn- create-operator
   ([body]
@@ -393,7 +393,7 @@
         vertex   (reduce (fn [x [k v]] (tag-var k v x)) vertex (:attributes program))
         vertex   (:program (process-map vertex params dim elements))
         attribs  (list 'do (process-attributes program))
-        varying  (->> program :vertex results keys (filter symbol?))  
+        varying  (->> program :vertex results keys (filter symbol?))
         varying  (zipmap varying (map #(typeof-var % vertex) varying))]
     {:varying varying
      :vertex (list 'do

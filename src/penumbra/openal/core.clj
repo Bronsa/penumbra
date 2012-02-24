@@ -13,12 +13,13 @@
 
 ;;;
 
-(defvar *check-errors* true
-  "Check errors after every OpenAL call.")
+(def *check-errors*
+  "Check errors after every OpenAL call."
+  true)
 
 ;;;
 
-(defvar- containers [AL10 AL11])
+(def ^:private containers [AL10 AL11])
 
 (defn- get-fields [#^Class static-class]
   (. static-class getFields))
@@ -101,7 +102,7 @@
          [& args#]
          `(do
             (let [~'value# (. ~'~container ~'~import-from ~@(map (fn [x#] (or (enum x#) x#)) args#))]
-              (when *check-errors* 
+              (when *check-errors*
                 (check-error ~'~method-name))
               ~'value#))))))
 

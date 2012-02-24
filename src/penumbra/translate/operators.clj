@@ -10,7 +10,7 @@
   (:use [clojure.walk]
         [penumbra.translate core]
 		[cantor :only (rectangle-factors)]
-        [penumbra.utils :only (defn-memo defvar- indexed separate)]
+        [penumbra.utils :only (defn-memo indexed separate)]
         [penumbra.translate.core])
   (:require [clojure.zip :as zip]
             [penumbra.data :as data]))
@@ -136,7 +136,7 @@
 
 ;;special map operators
 
-(defvar- element-convolution-expr
+(def ^:private element-convolution-expr
   '(let [-half-dim (/ (dim :element) 2.0)
          -start    (max (float2 0.0) (- :coord (floor -half-dim)))
          -end      (min :dim (+ :coord (ceil -half-dim)))]
@@ -147,7 +147,7 @@
                -lookup   (:element (+ -offset -half-dim))]
            :body)))))
 
-(defvar- radius-convolution-expr
+(def ^:private radius-convolution-expr
   '(let [-radius (float2 (float :radius))
          -start  (max (float2 0.0) (float2 (- :coord -radius)))
          -end    (min :dim (+ :coord -radius (float2 1.0)))]
@@ -233,7 +233,7 @@
 
 ;;defreduce
 
-(defvar- reduce-program
+(def ^:private reduce-program
   '(let [-source-coord (* (floor :coord) 2)
          -x (> (.x -bounds) (.x -source-coord))
          -y (> (.y -bounds) (.y -source-coord))]

@@ -8,7 +8,7 @@
 
 (ns penumbra.glsl.core
   (:use [penumbra.translate core])
-  (:use [penumbra.utils :only (defvar defvar- defmacro-)])
+  (:use [penumbra.utils :only (defmacro-)])
   (:use [clojure.pprint :only (pprint)])
   (:import (java.text ParseException))
   (:require [penumbra.translate.c :as c]))
@@ -35,7 +35,7 @@
   {:float 1, :float2 2, :float3 3, :float4 4
    :int 1, :int2 2, :int3 3, :int4 4
    :color 1, :color2 2, :color3 3, :color4 4})
-      
+
 ;;;
 
 (defmulti transformer
@@ -117,7 +117,7 @@
   `(defmethod inspector ~sym [x#]
      (let [types# (map typeof (next x#))
            known-types# (filter identity types#)]
-       (if (or (empty? known-types#) (not= (count types#) (count known-types#))) 
+       (if (or (empty? known-types#) (not= (count types#) (count known-types#)))
          nil
          (let [maximum# (apply max (map type-tuple known-types#))]
            (first (filter (fn [p#] (= maximum# (type-tuple p#))) known-types#)))))))
@@ -125,7 +125,7 @@
 (defmacro- def-maximum-inspectors [& symbols]
   (let [fns (map def-maximum-inspector symbols)]
     `(do ~@fns)))
-       
+
 ;;;
 
 (def-constant-inspectors

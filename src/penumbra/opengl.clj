@@ -9,7 +9,7 @@
 (ns ^{:author "Zachary Tellman"}
   penumbra.opengl
   (:use [penumbra.opengl core]
-        [penumbra.utils :only (defn-memo defmacro- defvar)])
+        [penumbra.utils :only (defn-memo defmacro-)])
   (:require [penumbra.opengl.texture :as tex]
             [penumbra.data :as data]
             [penumbra.opengl.frame-buffer :as fb]

@@ -9,7 +9,7 @@
 (ns example.game.tetris
   (:use [penumbra opengl])
   (:require [penumbra.app :as app])
-  (:use [penumbra.utils :only (indexed defn-mem)])
+  (:use [penumbra.utils :only (indexed)])
   (:use [clojure.pprint]))
 
 ;;;
@@ -169,14 +169,14 @@
 (defn init [state]
 
   (app/title! "Tetris")
-  
+
   (def bordered-rectangle
        (create-display-list
         (draw-quads (rectangle))
         (color 0 0 0)
         (draw-line-loop (rectangle))
         (color 1 1 1)))
-  
+
   (app/periodic-update!
    2
    (fn [state]
@@ -217,7 +217,7 @@
 
 (defn draw-bordered-block [col [x y]]
   (when (<= 0 y)
-    (apply color col)    
+    (apply color col)
     (push-matrix
      (translate x y)
      (call-display-list bordered-rectangle))))

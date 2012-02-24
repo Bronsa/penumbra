@@ -7,11 +7,10 @@
 ;;   You must not remove this notice, or any other, from this software.
 
 (ns penumbra.app.window
-  (:use [penumbra.opengl]
-        [penumbra.utils :only (-?>)])
+  (:use [penumbra.opengl])
   (:require [penumbra.opengl
-              [texture :as texture]
-              [context :as context]]
+             [texture :as texture]
+             [context :as context]]
             [penumbra.text :as text]
             [penumbra.app.event :as event]
             [penumbra.app.core :as app])

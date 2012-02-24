@@ -8,8 +8,7 @@
 ;;   software.
 
 (ns penumbra.app
-  (:use [penumbra.utils :only (-?>)]
-        [penumbra.utils :only [defmacro- defvar-]]
+  (:use [penumbra.utils :only [defmacro-]]
         [penumbra.opengl]
         [penumbra.opengl.core]
         [clojure.walk :only (postwalk-replace)])
@@ -300,7 +299,7 @@
 
 (defn start
   "Starts a window from scratch, or from a closed state.
-   Supported callbacks are: 
+   Supported callbacks are:
    :update         [[delta time] state]
    :display        [[delta time] state]
    :reshape        [[x y width height] state]
