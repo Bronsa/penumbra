@@ -32,9 +32,3 @@
                offset (@lookup t0)]
            (reset! lookup #(+ offset (* speed (- % t0)))))
          nil)))))
-
-
-
-
-
-
