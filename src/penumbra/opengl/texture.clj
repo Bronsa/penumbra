@@ -121,14 +121,16 @@
     (cond
      (or= type Double Double/TYPE)   :double
      (or= type Integer Integer/TYPE) :int
+     (or= type Long Long/TYPE)       :long
      (or= type Float Float/TYPE)     :float
      (or= type Byte Byte/TYPE)       :unsigned-byte
-     :else                           (throw (Exception. "Don't recognize type")))))
+     :else                           (throw (Exception. (str "Don't recognize type, given:" type))))))
 
 (defn- create-array [size-or-seq type]
   (cond
    (array? size-or-seq)    size-or-seq
    (= type :int)           (int-array size-or-seq)
+   (= type :long)          (long-array size-or-seq)
    (= type :float)         (float-array size-or-seq)
    (= type :unsigned-byte) (byte-array size-or-seq)
    (= type :double)        (double-array size-or-seq)
@@ -148,6 +150,7 @@
     :double (double-array s)
     :float (float-array s)
     :int (int-array s)
+    :long (long-array s)
     :unsigned-byte (if (= :unsigned-byte (seq-type s))
                      (byte-array s)
                      (byte-array (denormalize-bytes s)))))
@@ -158,14 +161,16 @@
    (= type :double)        (-> (BufferUtils/createDoubleBuffer (count a)) (.put a) .rewind)
    (= type :float)         (-> (BufferUtils/createFloatBuffer (count a)) (.put a) .rewind)
    (= type :int)           (-> (BufferUtils/createIntBuffer (count a)) (.put a) .rewind)
+   (= type :long)          (-> (BufferUtils/createLongBuffer (count a)) (.put a) .rewind)
    (= type :unsigned-byte) (-> (BufferUtils/createByteBuffer (count a)) (.put a) .rewind)
    :else                   (throw (Exception. (str "Don't recognize type " type)))))
 
 (defn- create-buffer [size type]
   (cond
     (= type :double)        (BufferUtils/createDoubleBuffer size)
-    (= type :float)         (BufferUtils/createFloatBuffer size) 
+    (= type :float)         (BufferUtils/createFloatBuffer size)
     (= type :int)           (BufferUtils/createIntBuffer size)
+    (= type :long)          (BufferUtils/createLongBuffer size)
     (= type :unsigned-byte) (BufferUtils/createByteBuffer size)
     :else                   (throw (Exception. (str "Don't recognize type " type)))))
 
