@@ -1,4 +1,4 @@
-(defproject kephale/penumbra "0.6.0-SNAPSHOT"
+(defproject bronsa/penumbra "0.6.0-SNAPSHOT"
   :description "An idiomatic wrapper for OpenGL. Clojure 1.3 version"
   :dependencies [[slick-util "1.0.0"]
                  [org.clojure/core.incubator "0.1.0"]
