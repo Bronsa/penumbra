@@ -54,12 +54,12 @@
   [program body]
   (let [prev-program *program*]
     (try
-     (binding [*program* program, *uniforms* (:uniforms program), *attributes* (:attributes program)]
-       (bind-program program)
-       (body))
-     (finally
-      (if (not= prev-program program)
-        (bind-program prev-program))))))
+      (binding [*program* program, *uniforms* (:uniforms program), *attributes* (:attributes program)]
+        (bind-program program)
+        (body))
+      (finally
+        (if (not= prev-program program)
+          (bind-program prev-program))))))
 
 (defn- int? [p]
   (let [cls (class p)]
@@ -102,9 +102,9 @@
 (defmacro- gl-query-info
   [query-fn setting fn-name]
   `(defn- ~fn-name [param#]
-    (let [buf# (BufferUtils/createIntBuffer 1)]
-      (~query-fn param# ~setting buf#)
-      (.get buf# 0))))
+     (let [buf# (BufferUtils/createIntBuffer 1)]
+       (~query-fn param# ~setting buf#)
+       (.get buf# 0))))
 
 (defmacro- gl-query-status
   [query-fn setting fn-name]

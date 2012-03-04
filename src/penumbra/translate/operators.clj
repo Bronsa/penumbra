@@ -9,7 +9,7 @@
 (ns penumbra.translate.operators
   (:use [clojure.walk]
         [penumbra.translate core]
-		[cantor :only (rectangle-factors)]
+        [cantor :only (rectangle-factors)]
         [penumbra.utils :only (defn-memo indexed separate)]
         [penumbra.translate.core])
   (:require [clojure.zip :as zip]
@@ -44,8 +44,8 @@
 
 (defn element? [s]
   (or
-    (and (symbol? s) (re-find #"%$|%[0-9]+" (name s)))
-    (and (seq? s) (< 1 (count s)) (element? (first s)))))
+   (and (symbol? s) (re-find #"%$|%[0-9]+" (name s)))
+   (and (seq? s) (< 1 (count s)) (element? (first s)))))
 
 (defn-memo create-element [index]
   (symbol (str "%" (inc index))))
@@ -69,9 +69,9 @@
   (merge-meta
    x
    (cond
-    (element? x) (or (f x) x)
-    (sequential? x) (walk #(apply-element-transform f %) identity x)
-    :else x)))
+     (element? x) (or (f x) x)
+     (sequential? x) (walk #(apply-element-transform f %) identity x)
+     :else x)))
 
 ;;results
 
@@ -105,13 +105,13 @@
 
 (defn param-dispatch [t]
   (cond
-   (and (vector? t) (->> t first number?)) :dim
-   (number? t) :dim
-   (or (= :penumbra.opengl.texture/texture (type t)) (vector? t)) :elements ;;this should be using (satisfies? data/Data t) but that's surprisingly slow
-   (map? t) :params
-   (symbol? t) :symbol
-   (keyword? t) :keyword
-   :else (throw (Exception. (str "Don't recognize " (with-out-str (println t)))))))
+    (and (vector? t) (->> t first number?)) :dim
+    (number? t) :dim
+    (or (= :penumbra.opengl.texture/texture (type t)) (vector? t)) :elements ;;this should be using (satisfies? data/Data t) but that's surprisingly slow
+    (map? t) :params
+    (symbol? t) :symbol
+    (keyword? t) :keyword
+    :else (throw (Exception. (str "Don't recognize " (with-out-str (println t)))))))
 
 (defn group-elements [params]
   (concat
@@ -127,10 +127,10 @@
                   (replace-with x (add-meta x :tag (*typeof-param* v)))))
               params)
          (map (fn [[idx e]]
-                   (let [type (*typeof-element* e)]
-                     (fn [x]
-                       (when (and (element? x) (= idx (element-index x)))
-                         (add-meta x :tag type)))))
+                (let [type (*typeof-element* e)]
+                  (fn [x]
+                    (when (and (element? x) (= idx (element-index x)))
+                      (add-meta x :tag type)))))
               (indexed elements))))
        transform-expr))
 

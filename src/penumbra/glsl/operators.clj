@@ -12,8 +12,8 @@
         [penumbra.translate core operators]
         [penumbra.glsl core]
         [penumbra.opengl.context :only (draw-frame-buffer)]
-	[clojure.pprint :only (pprint)]
-	[penumbra.utils :only (separate indexed defn-memo)])
+        [clojure.pprint :only (pprint)]
+        [penumbra.utils :only (separate indexed defn-memo)])
   (:require [clojure.zip :as zip]
             [penumbra.translate.c :as c]
             [penumbra.opengl.texture :as tex]
@@ -124,18 +124,18 @@
          `(~'texture2DRect
            ~tex-name
            ~(cond
-             (nil? location)
-             :coord
-             (= :float2 (typeof location))
-             location
-             (= :float (typeof location))
-             `(~'float2 (floor (mod ~location (.x (~'dim ~element))))
-                        (floor (div ~location (.x (~'dim ~element)))))
-             (= :int (typeof location))
-             `(~'float2 (floor (mod (float ~location) (.x (~'dim ~element))))
-                        (floor (div (float ~location) (.x (~'dim ~element)))))
-             :else
-             (println "Don't recognize index type" location (typeof location))))
+              (nil? location)
+              :coord
+              (= :float2 (typeof location))
+              location
+              (= :float (typeof location))
+              `(~'float2 (floor (mod ~location (.x (~'dim ~element))))
+                         (floor (div ~location (.x (~'dim ~element)))))
+              (= :int (typeof location))
+              `(~'float2 (floor (mod (float ~location) (.x (~'dim ~element))))
+                         (floor (div (float ~location) (.x (~'dim ~element)))))
+              :else
+              (println "Don't recognize index type" location (typeof location))))
          [:texture-3d 3]
          `(~'texture3D ~tex-name ~location)
          [:texture-rectangle 3]
@@ -179,12 +179,12 @@
   [x]
   (let [index
         '((<-
-          -index
-          (-> -coord .y floor (* (.x -dim)) (+ (-> -coord .x floor)))))]
+           -index
+           (-> -coord .y floor (* (.x -dim)) (+ (-> -coord .x floor)))))]
     (if ((set (flatten x)) :index)
       (concat
-        index
-        (apply-transforms [(replace-with :index #^:float '-index)] x))
+       index
+       (apply-transforms [(replace-with :index ^:float '-index)] x))
       x)))
 
 (defn prepend-lighting
@@ -243,8 +243,8 @@
                  (apply-transforms
                   (list
                    #(when (first= % 'dim) (transform-dim %))
-                   (replace-with :coord #^:float2 '-coord)
-                   (replace-with :dim #^:float2 '-dim)))
+                   (replace-with :coord ^:float2 '-coord)
+                   (replace-with :dim ^:float2 '-dim)))
                  results-fn
                  wrap-and-prepend)]
        (list 'do declarations body))))
@@ -268,11 +268,11 @@
                      p
                      (do
                        (let [processed-info (f program (:params info) (:dim info) (:elements info))
-                            processed-program (program-creator processed-info)
-                            hash {:program processed-program
-                                  :results (:results processed-info)}]
-                        (swap! programs #(assoc % sig hash))
-                        hash))))]
+                             processed-program (program-creator processed-info)
+                             hash {:program processed-program
+                                   :results (:results processed-info)}]
+                         (swap! programs #(assoc % sig hash))
+                         hash))))]
         (assoc hash
           :elements (:elements info)
           :params (:params info)
@@ -284,10 +284,10 @@
 (defn set-params [params]
   (doseq [[n v] params]
     (apply
-      uniform
-      (list*
-        (param-lookup n)
-        (seq-wrap v)))))
+     uniform
+     (list*
+      (param-lookup n)
+      (seq-wrap v)))))
 
 ;;;
 
@@ -413,9 +413,9 @@
 (defn- process-renderer
   [program params dim elements]
   (let [program (merge
-                {:vertex fixed-render-transform
-                 :fragment :frag-color}
-                program)]
+                 {:vertex fixed-render-transform
+                  :fragment :frag-color}
+                 program)]
     (let [vertex (process-vertex program params dim elements)
           fragment (process-fragment program (:varying vertex) params dim elements)]
       (merge vertex fragment))))

@@ -4,8 +4,7 @@
 ;;   which can be found in the file epl-v10.html at the root of this distribution.
 ;;   By using this software in any fashion, you are agreeing to be bound by
 ;;   the terms of this license.
-;;   You must not remove this notice, or any other, from this
-;;   software.
+;;   You must not remove this notice, or any other, from this software.
 
 (ns penumbra.app
   (:use [penumbra.utils :only [defmacro-]]
@@ -273,8 +272,8 @@
            (event/publish! :update)
            (controller/invalidated! false))
          (push-matrix
-           (clear 0 0 0)
-           (event/publish! app :display))
+          (clear 0 0 0)
+          (event/publish! app :display))
          (Thread/sleep 1)
          (window/update! app))
        (Thread/sleep 1))
